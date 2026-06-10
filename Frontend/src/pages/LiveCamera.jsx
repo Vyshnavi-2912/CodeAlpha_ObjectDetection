@@ -11,6 +11,7 @@ import {
   Layers
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { WS_URL } from '../config';
 
 // Common YOLO classes for selection
 const POPULAR_CLASSES = [
@@ -55,8 +56,7 @@ export default function LiveCamera() {
       }
       
       // Connect to Backend WebSocket
-      const hostname = window.location.hostname === 'localhost' ? '127.0.0.1' : window.location.hostname;
-      const wsUrl = `ws://${hostname}:8000/api/stream`;
+      const wsUrl = `${WS_URL}/api/stream`;
       const ws = new WebSocket(wsUrl);
       wsRef.current = ws;
 

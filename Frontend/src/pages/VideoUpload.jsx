@@ -12,9 +12,9 @@ import {
   Sparkles
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { API_URL } from '../config';
 
 export default function VideoUpload() {
-  const hostname = window.location.hostname === 'localhost' ? '127.0.0.1' : window.location.hostname;
   const [file, setFile] = useState(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -81,7 +81,7 @@ export default function VideoUpload() {
     setResult(null);
 
     try {
-      const response = await axios.post(`http://${hostname}:8000/api/upload`, formData, {
+      const response = await axios.post(`${API_URL}/api/upload`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       
@@ -91,7 +91,7 @@ export default function VideoUpload() {
       // Polling interval
       const pollInterval = setInterval(async () => {
         try {
-          const statusRes = await axios.get(`http://${hostname}:8000/api/upload/status/${task_id}`);
+          const statusRes = await axios.get(`${API_URL}/api/upload/status/${task_id}`);
           const data = statusRes.data;
           
           if (data.status === 'processing') {
@@ -211,7 +211,7 @@ export default function VideoUpload() {
               <div className="relative glass-panel rounded-3xl overflow-hidden aspect-video border border-brand-border bg-black flex items-center justify-center">
                 <video 
                   controls 
-                  src={`http://${hostname}:8000${result.video_url}`}
+                  src={`${API_URL}${result.video_url}`}
                   className="w-full h-full object-contain"
                   autoPlay
                 />
@@ -242,7 +242,7 @@ export default function VideoUpload() {
                   Upload Another Video
                 </button>
                 <a 
-                  href={`http://${hostname}:8000${result.video_url}`}
+                  href={`${API_URL}${result.video_url}`}
                   download
                   className="btn-neon-cyan px-5 py-2.5 rounded-xl flex items-center gap-2 cursor-pointer text-sm"
                 >

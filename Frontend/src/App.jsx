@@ -7,6 +7,7 @@ import VideoUpload from './pages/VideoUpload';
 import Analytics from './pages/Analytics';
 import Logs from './pages/Logs';
 import { Clock, Server, Cpu, Database as DbIcon, ShieldCheck } from 'lucide-react';
+import { API_URL } from './config';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('landing');
@@ -23,8 +24,7 @@ export default function App() {
   // Check connection to backend & systems health
   const checkConnection = async () => {
     try {
-      const hostname = window.location.hostname === 'localhost' ? '127.0.0.1' : window.location.hostname;
-      const res = await axios.get(`http://${hostname}:8000/api/health`);
+      const res = await axios.get(`${API_URL}/api/health`);
       if (res.status === 200 && res.data.success) {
         setHealth({
           backend: res.data.backend === 'online',

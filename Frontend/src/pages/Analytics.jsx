@@ -15,11 +15,11 @@ import {
   ShieldAlert,
   Sliders
 } from 'lucide-react';
+import { API_URL } from '../config';
 
 const COLORS = ['#7c3aed', '#00f2fe', '#ff5a5f', '#34d399', '#fbbf24', '#a78bfa'];
 
 export default function Analytics() {
-  const hostname = window.location.hostname === 'localhost' ? '127.0.0.1' : window.location.hostname;
   const [data, setData] = useState(null);
   const [insights, setInsights] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,12 +28,12 @@ export default function Analytics() {
   const fetchAnalytics = async () => {
     setIsLoading(true);
     try {
-      const res1 = await axios.get(`http://${hostname}:8000/api/analytics`);
+      const res1 = await axios.get(`${API_URL}/api/analytics`);
       if (res1.data.success) {
         setData(res1.data);
       }
       
-      const res2 = await axios.get(`http://${hostname}:8000/api/insights`);
+      const res2 = await axios.get(`${API_URL}/api/insights`);
       if (res2.data.success) {
         setInsights(res2.data.insights);
       }
@@ -247,7 +247,7 @@ export default function Analytics() {
             
             <div className="relative aspect-video rounded-2xl border border-brand-border overflow-hidden bg-black flex items-center justify-center">
               <img 
-                src={`http://${hostname}:8000/api/heatmap?t=${heatmapKey}`} 
+                src={`${API_URL}/api/heatmap?t=${heatmapKey}`} 
                 alt="Coordinates Heatmap"
                 className="w-full h-full object-cover"
               />

@@ -11,9 +11,9 @@ import {
   Search,
   ArrowUpDown
 } from 'lucide-react';
+import { API_URL } from '../config';
 
 export default function Logs() {
-  const hostname = window.location.hostname === 'localhost' ? '127.0.0.1' : window.location.hostname;
   const [logs, setLogs] = useState([]);
   const [total, setTotal] = useState(0);
   const [limit] = useState(12);
@@ -34,7 +34,7 @@ export default function Logs() {
   const fetchLogs = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`http://${hostname}:8000/api/logs`, {
+      const response = await axios.get(`${API_URL}/api/logs`, {
         params: {
           limit,
           offset,
@@ -100,7 +100,7 @@ export default function Logs() {
       return;
     }
     try {
-      const response = await axios.delete(`http://${hostname}:8000/api/logs/clear`);
+      const response = await axios.delete(`${API_URL}/api/logs/clear`);
       if (response.data.success) {
         alert("Database log records cleared successfully.");
         setOffset(0);
@@ -139,7 +139,7 @@ export default function Logs() {
         <div className="flex items-center gap-3">
           {/* Export CSV */}
           <a 
-            href={`http://${hostname}:8000/api/export/csv`}
+            href={`${API_URL}/api/export/csv`}
             download
             className="glass-panel border border-brand-border hover:bg-white/5 text-slate-200 font-semibold px-4 py-2.5 rounded-xl flex items-center gap-2 cursor-pointer transition-colors text-sm"
           >
@@ -148,7 +148,7 @@ export default function Logs() {
 
           {/* Export PDF */}
           <a 
-            href={`http://${hostname}:8000/api/export/pdf`}
+            href={`${API_URL}/api/export/pdf`}
             download
             className="glass-panel border border-brand-border hover:bg-white/5 text-slate-200 font-semibold px-4 py-2.5 rounded-xl flex items-center gap-2 cursor-pointer transition-colors text-sm"
           >
